@@ -19,7 +19,12 @@
   const q = new URLSearchParams(location.search);
   if (q.get('code')) {
     document.getElementById('h').textContent = 'Connected';
-    document.getElementById('p').textContent = 'You can close this tab.';
+    document.getElementById('p').textContent = 'Click Copy code, paste it into the terminal, then close this tab.';
+    const b = document.createElement('button');
+    b.textContent = 'Copy code';
+    b.style.cssText = 'font:inherit;padding:.6em 1.2em;margin:.5em 0 1em;cursor:pointer';
+    b.onclick = async () => { await navigator.clipboard.writeText(location.href); b.textContent = 'Copied'; };
+    document.getElementById('p').after(b);
   } else if (q.get('error')) {
     document.getElementById('h').textContent = 'Not connected';
     document.getElementById('p').textContent = q.get('error_description') || q.get('error');
